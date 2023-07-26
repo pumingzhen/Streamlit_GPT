@@ -21,7 +21,7 @@ with st.sidebar:
         system_prompt = st.text_area("设定", system_prompt)
         if system_prompt:
             st.session_state.system_prompt = system_prompt
-            st.session_state.bot.reset(system_prompt=system_prompt)
+            st.session_state.bot = Chatbot(engine=model, system_prompt=system_prompt)
             st.session_state.messages = st.session_state.bot.conversation["default"]
 
 # Accept user input
