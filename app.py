@@ -30,13 +30,11 @@ with st.sidebar:
             if model != st.session_state.model:
                 st.session_state.model = model
                 st.session_state.bot = Chatbot(engine=st.session_state.model,
-                                               proxy=st.secrets["proxy"],
                                                system_prompt=system_prompt, api_key=st.secrets["api_key"])
 
         else:
             st.session_state.model = model
             st.session_state.bot = Chatbot(engine=model,
-                                           proxy=st.secrets["proxy"],
                                            system_prompt=system_prompt, api_key=st.secrets["api_key"])
             st.session_state.messages = st.session_state.bot.conversation["default"]
 
