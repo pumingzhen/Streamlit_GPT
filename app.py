@@ -21,27 +21,32 @@ with st.sidebar:
         system_prompt = st.text_area("设定", system_prompt)
         if 'system_prompt' not in st.session_state:
             st.session_state.system_prompt = system_prompt
+            
         else:
             if st.session_state.system_prompt != system_prompt:
                 st.session_state.system_prompt = system_prompt
                 st.session_state.bot.reset(system_prompt=system_prompt)
                 st.session_state.messages = st.session_state.bot.conversation["default"]
+                st.write(1)
         if 'model' in st.session_state:
             if model != st.session_state.model:
                 st.session_state.model = model
                 st.session_state.bot = Chatbot(engine=st.session_state.model,
                                                system_prompt=system_prompt, api_key=key)
                 st.session_state.messages = st.session_state.bot.conversation["default"]
+                st.write(2)
 
         else:
             st.session_state.model = model
             st.session_state.bot = Chatbot(engine=model,
                                            system_prompt=system_prompt, api_key=key)
             st.session_state.messages = st.session_state.bot.conversation["default"]
+            st.write(3)
 
 if "bot" in st.session_state:
     if "messages" not in st.session_state:
         st.session_state.messages = st.session_state.bot.conversation["default"]
+        st.write(4)
     st.session_state.messages
     for message in st.session_state.messages:
         with st.chat_message(message["role"].replace("system", "user")):
