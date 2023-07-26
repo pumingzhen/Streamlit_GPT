@@ -7,9 +7,9 @@ from revChatGPT.V3 import Chatbot
 os.environ["API_URL"] = "https://chimeragpt.adventblocks.cc/api/v1/chat/completions"
 
 st.set_page_config(page_title="ChimeraGPT", page_icon='random', layout="wide")
-
+st.title('ChimeraGPT')
 with st.sidebar:
-    st.title('ChimeraGPT')
+    
     model = st.selectbox("选择模型:", ["gpt-4", "gpt-3.5-turbo",
                                        "gpt-3.5-turbo-16k",
                                        "gpt-3.5-turbo-0301",
