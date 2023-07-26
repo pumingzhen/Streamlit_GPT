@@ -19,24 +19,10 @@ with st.sidebar:
     if model and key:
         system_prompt = f'You are ChatGPT,  a large language model({model}) trained by OpenAI. Respond conversationally'
         system_prompt = st.text_area("设定", system_prompt)
-        if 'system_prompt' not in st.session_state:
+        if system_prompt:
             st.session_state.system_prompt = system_prompt
-        else:
-            if st.session_state.system_prompt != system_prompt:
-                st.session_state.system_prompt = system_prompt
-                st.session_state.bot.reset(system_prompt=system_prompt)
-                st.session_state.messages = st.session_state.bot.conversation["default"]
-        if 'model' in st.session_state:
-            if model != st.session_state.model:
-                st.session_state.model = model
-                st.session_state.bot = Chatbot(engine=st.session_state.model,
-                                               system_prompt=system_prompt, api_key=key)
-
-        else:
-            st.session_state.model = model
-            st.session_state.bot = Chatbot(engine=model,
-                                           system_prompt=system_prompt, api_key=key)
-            # st.session_state.bot.conversation = {"default": []}
+            st.session_state.bot.reset(system_prompt=system_prompt)
+            st.session_state.messages = st.session_state.bot.conversation["default"]
 
 # Accept user input
 if key:
