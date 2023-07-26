@@ -31,6 +31,7 @@ with st.sidebar:
                 st.session_state.model = model
                 st.session_state.bot = Chatbot(engine=st.session_state.model,
                                                system_prompt=system_prompt, api_key=key)
+                st.session_state.messages = st.session_state.bot.conversation["default"]
 
         else:
             st.session_state.model = model
@@ -42,7 +43,7 @@ with st.sidebar:
 if model and key:
     # Initialize chat history
     if "messages" not in st.session_state:
-        st.session_state.messages = st.session_state.bot.conversation["default"]
+        st.session_state.messages = []
 
     # Display chat messages from history on app rerun
     for message in st.session_state.messages:
