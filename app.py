@@ -90,5 +90,5 @@ if key:
                     message_placeholder.markdown(full_response)
             # Add assistant response to chat history
             st.session_state.messages.append({"role": "assistant", "content": full_response})
-    else:
-        st.subheader("NEED KEY")
+else:
+    st.subheader("NEED KEY")
