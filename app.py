@@ -9,6 +9,7 @@ os.environ["API_URL"] = "https://chimeragpt.adventblocks.cc/api/v1/chat/completi
 st.set_page_config(page_title="ChimeraGPT", page_icon='random', layout="wide")
 
 with st.sidebar:
+    st.title('ChimeraGPT')
     model = st.selectbox("选择模型:", ["gpt-4", "gpt-3.5-turbo",
                                        "gpt-3.5-turbo-16k",
                                        "gpt-3.5-turbo-0301",
@@ -37,9 +38,9 @@ with st.sidebar:
                                            system_prompt=system_prompt, api_key=key)
             # st.session_state.bot.conversation = {"default": []}
 
-st.title('ChimeraGPT')
-
-# Initialize chat history
+# Accept user input
+if key:
+    # Initialize chat history
 if "messages" not in st.session_state:
     st.session_state.messages = st.session_state.bot.conversation["default"]
 
@@ -47,9 +48,6 @@ if "messages" not in st.session_state:
 for message in st.session_state.messages:
     with st.chat_message(message["role"].replace("system", "user")):
         st.markdown(message["content"])
-
-# Accept user input
-if key:
     prompt = st.chat_input("输入你的困惑")
     if prompt:
         # Add user message to chat history
