@@ -39,7 +39,8 @@ with st.sidebar:
                                            system_prompt=system_prompt, api_key=key)
             st.session_state.messages = st.session_state.bot.conversation["default"]
 if "messages" not in st.session_state:
-    st.session_state.messages = st.session_state.bot.conversation["default"]
+    if key:
+        st.session_state.messages = st.session_state.bot.conversation["default"]
 for message in st.session_state.messages:
     with st.chat_message(message["role"].replace("system", "user")):
         st.markdown(message["content"])
