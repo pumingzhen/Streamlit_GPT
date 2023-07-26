@@ -30,16 +30,16 @@ with st.sidebar:
             if model != st.session_state.model:
                 st.session_state.model = model
                 st.session_state.bot = Chatbot(engine=st.session_state.model,
-                                               system_prompt=system_prompt, api_key=st.secrets["api_key"])
+                                               system_prompt=system_prompt, api_key=key)
 
         else:
             st.session_state.model = model
             st.session_state.bot = Chatbot(engine=model,
-                                           system_prompt=system_prompt, api_key=st.secrets["api_key"])
+                                           system_prompt=system_prompt, api_key=key)
             st.session_state.messages = st.session_state.bot.conversation["default"]
 
 # Accept user input
-if key:
+if model and key:
     # Initialize chat history
     if "messages" not in st.session_state:
         st.session_state.messages = st.session_state.bot.conversation["default"]
