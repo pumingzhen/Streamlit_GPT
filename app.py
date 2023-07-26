@@ -41,54 +41,54 @@ with st.sidebar:
 # Accept user input
 if key:
     # Initialize chat history
-if "messages" not in st.session_state:
-    st.session_state.messages = st.session_state.bot.conversation["default"]
+    if "messages" not in st.session_state:
+        st.session_state.messages = st.session_state.bot.conversation["default"]
 
-# Display chat messages from history on app rerun
-for message in st.session_state.messages:
-    with st.chat_message(message["role"].replace("system", "user")):
-        st.markdown(message["content"])
-    prompt = st.chat_input("输入你的困惑")
-    if prompt:
-        # Add user message to chat history
-        st.session_state.messages.append({"role": "user", "content": prompt})
-        # Display user message in chat message container
-        with st.chat_message("user"):
-            st.markdown(prompt)
-        # Display assistant response in chat message container
-        with st.chat_message("assistant"):
-            message_placeholder = st.empty()
-            prompt = prompt.strip()
-            full_response = ""
-            if prompt.startswith("/"):
-                order = prompt.split(" ", 1)[0]
-                if order == "/reset":
-                    st.session_state.bot.reset()
-                    st.session_state.messages = st.session_state.bot.conversation["default"]
-                    message_placeholder.button("重置成功!")
-                elif order == "/draw":
-                    message = prompt.split(" ", 1)[1]
-                    message_placeholder.markdown(full_response + "▌")
-                    image_url = st.session_state.bot.image_create(message, size="800x800")[0]
-                    full_response = f"""![pic]({image_url})"""
-                    message_placeholder.markdown(full_response)
-                elif order == "/draws":
-                    message = prompt.split(" ", 1)[1]
-                    message_placeholder.markdown(full_response + "▌")
-                    image_urls = st.session_state.bot.image_create(message.rsplit(" ", 1)[-1], n=message.split(" ", 1)[0])
-                    for image_url in image_urls:
-                        full_response += f"""![pic]({image_url})\n"""
-                    message_placeholder.markdown(full_response)
-                else:
-                    message_placeholder.markdown("未知指令!")
-            else:
-                print('收到消息:', prompt, '\n等待响应:')
-                for chunk in st.session_state.bot.ask_stream(prompt):
-                    if chunk:
-                        full_response += chunk + ""
+    # Display chat messages from history on app rerun
+    for message in st.session_state.messages:
+        with st.chat_message(message["role"].replace("system", "user")):
+            st.markdown(message["content"])
+        prompt = st.chat_input("输入你的困惑")
+        if prompt:
+            # Add user message to chat history
+            st.session_state.messages.append({"role": "user", "content": prompt})
+            # Display user message in chat message container
+            with st.chat_message("user"):
+                st.markdown(prompt)
+            # Display assistant response in chat message container
+            with st.chat_message("assistant"):
+                message_placeholder = st.empty()
+                prompt = prompt.strip()
+                full_response = ""
+                if prompt.startswith("/"):
+                    order = prompt.split(" ", 1)[0]
+                    if order == "/reset":
+                        st.session_state.bot.reset()
+                        st.session_state.messages = st.session_state.bot.conversation["default"]
+                        message_placeholder.button("重置成功!")
+                    elif order == "/draw":
+                        message = prompt.split(" ", 1)[1]
                         message_placeholder.markdown(full_response + "▌")
-                message_placeholder.markdown(full_response)
-        # Add assistant response to chat history
-        st.session_state.messages.append({"role": "assistant", "content": full_response})
+                        image_url = st.session_state.bot.image_create(message, size="800x800")[0]
+                        full_response = f"""![pic]({image_url})"""
+                        message_placeholder.markdown(full_response)
+                    elif order == "/draws":
+                        message = prompt.split(" ", 1)[1]
+                        message_placeholder.markdown(full_response + "▌")
+                        image_urls = st.session_state.bot.image_create(message.rsplit(" ", 1)[-1], n=message.split(" ", 1)[0])
+                        for image_url in image_urls:
+                            full_response += f"""![pic]({image_url})\n"""
+                        message_placeholder.markdown(full_response)
+                    else:
+                        message_placeholder.markdown("未知指令!")
+                else:
+                    print('收到消息:', prompt, '\n等待响应:')
+                    for chunk in st.session_state.bot.ask_stream(prompt):
+                        if chunk:
+                            full_response += chunk + ""
+                            message_placeholder.markdown(full_response + "▌")
+                    message_placeholder.markdown(full_response)
+            # Add assistant response to chat history
+            st.session_state.messages.append({"role": "assistant", "content": full_response})
     else:
         st.subheader("NEED KEY")
