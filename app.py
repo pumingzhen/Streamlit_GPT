@@ -41,9 +41,10 @@ with st.sidebar:
 if "messages" not in st.session_state:
     if key:
         st.session_state.messages = st.session_state.bot.conversation["default"]
-for message in st.session_state.messages:
-    with st.chat_message(message["role"].replace("system", "user")):
-        st.markdown(message["content"])
+else:
+    for message in st.session_state.messages:
+        with st.chat_message(message["role"].replace("system", "user")):
+            st.markdown(message["content"])
 prompt = st.chat_input("输入你的困惑")
 # Accept user input
 if prompt:
