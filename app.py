@@ -49,7 +49,7 @@ if model and key:
     for message in st.session_state.messages:
         with st.chat_message(message["role"].replace("system", "user")):
             st.markdown(message["content"])
-        prompt = st.chat_input("输入你的困惑")
+    prompt = st.chat_input("输入你的困惑")
     if prompt:
         # Add user message to chat history
         st.session_state.messages.append({"role": "user", "content": prompt})
