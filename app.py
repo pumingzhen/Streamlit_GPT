@@ -38,19 +38,15 @@ with st.sidebar:
             st.session_state.bot = Chatbot(engine=model,
                                            system_prompt=system_prompt, api_key=key)
             st.session_state.messages = st.session_state.bot.conversation["default"]
-
+if "messages" not in st.session_state:
+    st.session_state.messages = st.session_state.bot.conversation["default"]
+for message in st.session_state.messages:
+    with st.chat_message(message["role"].replace("system", "user")):
+        st.markdown(message["content"])
 prompt = st.chat_input("输入你的困惑")
 # Accept user input
-if model and key:
-    # Initialize chat history
-    if "messages" not in st.session_state:
-        st.session_state.messages = st.session_state.bot.conversation["default"]
-
-    # Display chat messages from history on app rerun
-    for message in st.session_state.messages:
-        with st.chat_message(message["role"].replace("system", "user")):
-            st.markdown(message["content"])
-    if prompt:
+if prompt:
+    if key:
         # Add user message to chat history
         st.session_state.messages.append({"role": "user", "content": prompt})
         # Display user message in chat message container
@@ -92,5 +88,5 @@ if model and key:
         # Add assistant response to chat history
         if full_response:
             st.session_state.messages.append({"role": "assistant", "content": full_response})
-else:
-    st.warning("NEED KEY")
+    else:
+        st.warning("NEED KEY")
