@@ -6,12 +6,3 @@ tiktoken
 httpx
 revChatGPT
 requests
-pycryptodomex
-pycryptodome
-sqlalchemy < 2
-pymysql
-langchain
-langchain[docarray]
-pypdf
-sentence_transformers
-duckduckgo-search
