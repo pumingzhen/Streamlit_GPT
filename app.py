@@ -12,8 +12,8 @@ st.set_page_config(page_title="ChatGPT", page_icon='🤖', layout="wide")
 def get_from_local_storage(k, out=[]):
     if k not in st.session_state:
         with st.spinner(f"Load {k}"):
-            st_javascript(f"JSON.parse(localStorage.getItem('{k}'));")
-            v = st_javascript(f"JSON.parse(localStorage.getItem('{k}'));")
+            a = st_javascript(f"JSON.parse(localStorage.getItem('{k}'));", key="js1")
+            v = st_javascript(f"JSON.parse(localStorage.getItem('{k}'));", key="js12")
             time.sleep(0.5)
         return v or out
     else:
