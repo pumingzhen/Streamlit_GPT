@@ -100,7 +100,7 @@ with st.sidebar:
     if base_url.endswith(".php"):
         response = requests.get(st.secrets['chat_count_url'])
         st.write(response.text)
-    bot = gpt_api.Chatbot(engine=model, system_prompt=system_prompt, url_base=base_url + "/chat/completions", api_key=key)
+    bot = gpt_api.Chatbot(engine=model, system_prompt=system_prompt, url_base=base_url + "/api/v1/chat/completions", api_key=key)
     bot.conversation = st.session_state.messages
 
 st.title('ChatGPT')
