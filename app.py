@@ -27,7 +27,7 @@ def set_to_local_storage(k, v):
 
 def get_con_title():
     # return "test"
-    bot_ = gpt_api.Chatbot(engine="gpt-3.5-turbo", temperature=0, url_base=st.session_state['base_url']+ "/api/v1/chat/completions")
+    bot_ = gpt_api.Chatbot(engine="gpt-3.5-turbo", temperature=0, url_base=st.session_state['base_url']+ "/api/v1/chat/completions", api_key=st.session_state['key'])
     bot_.conversation['default'] = st.session_state.messages['default'].copy()
     chat_title = bot_.ask("总结上述对话, 10字以内", model="gpt-3.5-turbo")
     return chat_title
