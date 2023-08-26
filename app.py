@@ -48,6 +48,7 @@ def set_chat(model_name):
 
 
 def save_key(k):
+    st.session_state[k] = (st.session_state[k] + "/8").replace("//8", "")
     st.session_state['url_key'].update({k: st.session_state[k]})
     set_to_local_storage('url_key', st.session_state['url_key'])
 
@@ -57,7 +58,7 @@ if 'url_key' not in st.session_state:
 
 
 with st.sidebar:
-    base_url = st.text_input("Base URL:", st.session_state['url_key'].get("base_url") or "", on_change=save_key, args=('base_url',), key="base_url", type="password")
+    base_url = st.text_input("Base URL:", st.session_state['url_key'].get("base_url") or "",placeholder="https://chimeragpt.adventblocks.cc", on_change=save_key, args=('base_url',), key="base_url", type="password")
     key = st.text_input("Key:", st.session_state['url_key'].get("key") or "", on_change=save_key, key="key", args=('key',), type="password")
     if not (base_url and key):
         st.warning("请输入Base URL和Key")
