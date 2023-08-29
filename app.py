@@ -48,7 +48,6 @@ def set_chat(model_name):
 
 
 def save_key(k):
-    st.session_state[k] = (st.session_state[k] + "/8").replace("//8", "")
     st.session_state['url_key'].update({k: st.session_state[k]})
     set_to_local_storage('url_key', st.session_state['url_key'])
 
