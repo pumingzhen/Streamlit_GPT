@@ -44,7 +44,7 @@ def save_to_local_storage(model_name):
 
 def set_chat(model_name):
     save_to_local_storage(model_name)
-    st.session_state[f"{model_name}_con"] = get_from_local_storage(f"{model_name}_con")
+    # st.session_state[f"{model_name}_con"] = get_from_local_storage(f"{model_name}_con")
 
 
 def save_key(k):
@@ -68,6 +68,9 @@ with st.sidebar:
             response = requests.get(f"{base_url}/api/v1/models").json()['data']
             st.session_state.models = [i['id'] for i in response]
             st.session_state.tokens_dict = {i["id"]: i.get('tokens') for i in response}
+            for model_ in st.session_state.models:
+                st.session_state[f"{model_}_con"] = st_javascript(f"JSON.parse(localStorage.getItem('{model_}_con'));") or []
+            time.sleep(3)
 
     model = st.selectbox("选择模型:", st.session_state.models)
     system_prompt = f'You are {model}, a large language model. Respond conversationally and use markdown formatting.'
@@ -91,7 +94,7 @@ with st.sidebar:
         retry_prompt = None
     st.write("--------------------------------------------")
 
-    st.session_state[f"{model}_con"] = get_from_local_storage(f"{model}_con")
+    
     con_dict = st.selectbox("选择会话:", st.session_state[f"{model}_con"], format_func=lambda x: x.get("title"))
     col11, col22 = st.columns(2)
     if col11.button("Load", use_container_width=True):
