@@ -101,8 +101,8 @@ with st.sidebar:
         st.session_state.messages = con_dict["conversation"]
     col22_b = col22.button("Save", on_click=set_chat, args=(model,), use_container_width=True)
     if base_url.endswith(".php"):
-        response = requests.get(base_url)
-        st.write(response.text)
+        response = requests.get(base_url.replace(".php", ".txt"))
+        st.write("剩余次数: "+response.text)
     bot = gpt_api.Chatbot(engine=model, system_prompt=system_prompt, url_base=base_url + "/api/v1/chat/completions", api_key=key)
     bot.conversation = st.session_state.messages
 
