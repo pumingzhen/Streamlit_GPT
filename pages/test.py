@@ -16,6 +16,6 @@ if st.button("Set"):
 if st.button("load"):
     st.write(f"Load test")
     v = st_javascript(f"JSON.parse(localStorage.getItem('test123'));")
-    time.sleep(0.5)
+    time.sleep(3)
     st.write(v)
     st.success("Success")
