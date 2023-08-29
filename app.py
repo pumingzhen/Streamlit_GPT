@@ -13,7 +13,7 @@ def get_from_local_storage(k, out=[]):
     if k not in st.session_state:
         with st.spinner(f"Load {k}"):
             v = st_javascript(f"JSON.parse(localStorage.getItem('{k}'));")
-            time.sleep(0.5)
+            time.sleep(3)
         return v or out
     else:
         return st.session_state[k]
