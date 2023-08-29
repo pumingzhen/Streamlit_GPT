@@ -65,9 +65,10 @@ if 'url_key' not in st.session_state:
   return localStorageData;
     })()
     """
-    st.session_state.local_storage = st_javascript(script)
+    v = st_javascript(script)
     time.sleep(3)
-    st.session_state['url_key'] = st.session_state.local_storage.get('url_key', {})
+    st.session_state['url_key'] = json.loads(v.get('url_key', "{}"))
+    st.session_state.local_storage = v
 
 
 with st.sidebar:
@@ -83,7 +84,7 @@ with st.sidebar:
             st.session_state.models = [i['id'] for i in response]
             st.session_state.tokens_dict = {i["id"]: i.get('tokens') for i in response}
             for model_ in st.session_state.models:
-                st.session_state[f"{model_}_con"] = st.session_state.local_storage.get(f"{model_}_con", [])
+                st.session_state[f"{model_}_con"] = json.loads(st.session_state.local_storage.get(f"{model_}_con", "[]"))
 
     model = st.selectbox("选择模型:", st.session_state.models)
     system_prompt = f'You are {model}, a large language model. Respond conversationally and use markdown formatting.'
