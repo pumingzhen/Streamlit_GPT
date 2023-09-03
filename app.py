@@ -27,7 +27,7 @@ def set_to_local_storage(k, v):
 
 def get_con_title():
     # return "test"
-    bot_ = gpt_api.Chatbot(engine="gpt-3.5-turbo", temperature=0, url_base=st.session_state['base_url']+ "/api/v1/chat/completions", api_key=st.session_state['key'])
+    bot_ = gpt_api.Chatbot(engine="gpt-3.5-turbo", temperature=0, url_base=st.session_state['base_url']+ "/v1/chat/completions", api_key=st.session_state['key'])
     bot_.conversation['default'] = st.session_state.messages['default'].copy()
     chat_title = bot_.ask("总结上述对话, 10字以内", model="gpt-3.5-turbo")
     return chat_title
@@ -72,7 +72,7 @@ if 'url_key' not in st.session_state:
 
 
 with st.sidebar:
-    base_url = st.text_input("Base URL:", st.session_state['url_key'].get("base_url") or "",placeholder="https://chimeragpt.adventblocks.cc", on_change=save_key, args=('base_url',), key="base_url", type="password")
+    base_url = st.text_input("Base URL:", st.session_state['url_key'].get("base_url") or "",placeholder="https://chimeragpt.adventblocks.cc/api", on_change=save_key, args=('base_url',), key="base_url", type="password")
     key = st.text_input("Key:", st.session_state['url_key'].get("key") or "", on_change=save_key, key="key", args=('key',), type="password")
     if not (base_url and key):
         st.warning("请输入Base URL和Key")
@@ -80,7 +80,7 @@ with st.sidebar:
 
     if 'models' not in st.session_state:
         with st.spinner("加载模型中..."):
-            response = requests.get(f"{base_url}/api/v1/models").json()['data']
+            response = requests.get(f"{base_url}/v1/models").json()['data']
             st.session_state.models = [i['id'] for i in response]
             st.session_state.tokens_dict = {i["id"]: i.get('tokens') for i in response}
             for model_ in st.session_state.models:
@@ -117,7 +117,7 @@ with st.sidebar:
     if base_url.endswith(".php"):
         response = requests.get(base_url.replace(".php", ".txt"))
         st.write("剩余次数: "+response.text)
-    bot = gpt_api.Chatbot(engine=model, system_prompt=system_prompt, url_base=base_url + "/api/v1/chat/completions", api_key=key)
+    bot = gpt_api.Chatbot(engine=model, system_prompt=system_prompt, url_base=base_url + "/v1/chat/completions", api_key=key)
     bot.conversation = st.session_state.messages
 
 st.title('ChatGPT')
